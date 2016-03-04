@@ -4,10 +4,22 @@ module Mastermind
       @turn = 0
       @total_turns = turns
       @board = Board.new
+      puts "Do you want to be A: codebreaker, or B: codemaker?"
+      role = gets.chomp
+      if role == "codemaker"
+        @player = Player.new(:codemaker)
+        puts "You've chosen to be a codemaker!"
+      else
+        @player = Player.new(:codebreaker)
+        puts "You've chosen to be a codebreaker!"
     end
 
     def start
-      puts @code
+      if @player.role == :codemaker
+        @code = gets.chomp.split(//).map { |e| e.to_i }
+      else
+        random_code
+      end
       while @turn < @total_turns
         puts "Pick a code"
         @board.grid << gets.chomp.split(//).map { |e| e.to_i }
