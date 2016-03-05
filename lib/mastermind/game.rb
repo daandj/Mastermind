@@ -8,10 +8,13 @@ module Mastermind
       role = gets.chomp
       if role == "codemaker"
         @player = Player.new(:codemaker)
+        @ai = AI.new(:codebreaker)
         puts "You've chosen to be a codemaker!"
       else
         @player = Player.new(:codebreaker)
+        @ai = AI.new(:codemaker)
         puts "You've chosen to be a codebreaker!"
+      end
     end
 
     def start
@@ -21,9 +24,10 @@ module Mastermind
         random_code
       end
       while @turn < @total_turns
-        puts "Pick a code"
+        puts "Try a code"
         @board.grid << gets.chomp.split(//).map { |e| e.to_i }
-        @board.draw_board(@code)
+        score_array = @ai.score(@board.grid, @code)
+        @board.draw_board(score_array)
         @turn += 1
       end
     end
