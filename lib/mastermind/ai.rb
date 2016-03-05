@@ -30,5 +30,9 @@ module Mastermind
       end
       score_array
     end
+
+    def guess_code
+      code = Array.new(4) { rand(1..6) }
+    end
   end
 end
